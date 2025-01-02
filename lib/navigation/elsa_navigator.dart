@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,19 +18,18 @@ class ElsaNavigator {
     final from = GoRouterState.of(context).uri.toString();
 
     try {
-      // add from to query parameters
       final fullQueryParameters = {
         ...queryParameters ?? {},
         'from': from,
       };
+
       final fullPath = _buildPath(path, fullQueryParameters);
-      if (kIsWeb) {
-        // might need to handle navigate a bit differently on web
-        return context.push<ReturnValue?>(fullPath);
-      } else {
-        return context.push<ReturnValue?>(fullPath);
-      }
-    } catch (e) {
+
+      return context.push<ReturnValue?>(
+        fullPath,
+      );
+    } catch (e, s) {
+      log(e.toString(), stackTrace: s);
       return ReturnValue.error(
         errorCode: NavigationFailure.internalError,
         errorMessage: e.toString(),
@@ -40,9 +39,28 @@ class ElsaNavigator {
   }
 
   static void back(BuildContext context, [ReturnValue? returnValue]) {
+    final currentUri = GoRouterState.of(context).uri;
+    // get path without query parameters
+    final path = currentUri.path;
+    final queryParameters = {...currentUri.queryParameters};
+
+    // extract from to get previous path for back
+    final from = queryParameters.remove('from');
+
     final value = returnValue ??
-        ReturnValue.success(origin: GoRouterState.of(context).uri.toString());
-    context.pop(value);
+        ReturnValue.success(
+          origin: path,
+        );
+
+    // Check if we can pop the current route
+    if (context.canPop()) {
+      context.pop(value);
+    } else if (from != null) {
+      context.replace(from);
+    } else {
+      // If we can't pop (e.g., on web with direct URL access), go to home
+      context.go('/home'); // Assuming '/' is your home route
+    }
   }
 
   static String _buildPath(String path, Map<String, dynamic>? queryParameters) {
