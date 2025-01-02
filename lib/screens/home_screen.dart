@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
-import 'package:poc_navigator/screens/learn_screen.dart';
 
 import '../navigation/base_screen.dart';
 
 class HomeScreen extends BaseStatefulScreen {
-  const HomeScreen({super.key, required super.screenParams});
+  final StatefulNavigationShell navigationShell;
+
+  const HomeScreen({
+    super.key,
+    required super.screenParams,
+    required this.navigationShell,
+  });
 
   @override
   String get screenName => 'Home';
@@ -21,7 +27,11 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.navigationShell.currentIndex,
+    );
   }
 
   @override
@@ -37,6 +47,9 @@ class _HomeScreenState extends State<HomeScreen>
         title: const Text('Home'),
         bottom: TabBar(
           controller: _tabController,
+          onTap: (index) {
+            widget.navigationShell.goBranch(index);
+          },
           tabs: const [
             Tab(text: 'Home'),
             Tab(text: 'Learn'),
@@ -47,14 +60,17 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           ListTile(
             title: const Text('Home'),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              context.go('/home');
+            },
           ),
           ListTile(
             title: const Text('Learn'),
             onTap: () async {
               Navigator.of(context).pop();
               final returnValue = await ElsaNavigator.goPath(context, '/learn');
-              showSnackBar('Returned from Discover: $returnValue');
+              showSnackBar('Returned from Learn: $returnValue');
             },
           ),
           ListTile(
@@ -73,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen>
               final returnValue =
                   await ElsaNavigator.goPath(context, '/leaderboard');
               final counter = returnValue?.data['counter'];
-
               showSnackBar('Counter: $counter');
             },
           ),
@@ -83,35 +98,12 @@ class _HomeScreenState extends State<HomeScreen>
               Navigator.of(context).pop();
               final returnValue =
                   await ElsaNavigator.goPath(context, '/profile');
-              showSnackBar('Returned from Discover: $returnValue');
+              showSnackBar('Returned from Profile: $returnValue');
             },
           ),
         ],
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // Home tab content
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Home Tab Content'),
-                Text('Current path: ${widget.screenParams.path}'),
-                Text('From: ${widget.screenParams.from}'),
-                Text('Query params: ${widget.screenParams.queryData}'),
-              ],
-            ),
-          ),
-          // Learn tab content
-          LearnScreenBody(
-            path: '/learn',
-            from: 'Home',
-            queryData: const {'query': 'learn'},
-            completeLearningCallBack: () => _tabController.animateTo(0),
-          ),
-        ],
-      ),
+      body: widget.navigationShell,
     );
   }
 

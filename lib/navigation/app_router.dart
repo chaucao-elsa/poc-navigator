@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:poc_navigator/navigation/models/screen_params.dart';
 
@@ -11,12 +12,43 @@ class AppRouter {
   static final _router = GoRouter(
     initialLocation: '/home',
     routes: [
-      GoRoute(
-        path: '/home',
-        builder: (context, state) => HomeScreen(
-          screenParams: ScreenParams.fromGoRouterState(state),
-        ),
-      ),
+      StatefulShellRoute.indexedStack(
+          builder: (BuildContext context, GoRouterState state,
+                  StatefulNavigationShell navigationShell) =>
+              HomeScreen(
+                screenParams: ScreenParams.fromGoRouterState(state),
+                navigationShell: navigationShell,
+              ),
+          branches: [
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/home',
+                  builder: (context, state) => const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Home Tab Content'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: '/home/learn',
+                  builder: (context, state) => LearnScreenBody(
+                    path: state.uri.path,
+                    from: state.uri.queryParameters['from'] ?? '',
+                    queryData: state.uri.queryParameters,
+                    completeLearningCallBack: () => context.go('/home'),
+                  ),
+                ),
+              ],
+            ),
+          ]),
       GoRoute(
         path: '/learn',
         builder: (context, state) => LearnScreen(
