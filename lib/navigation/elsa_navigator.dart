@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
 import 'models/return_value.dart';
 
 typedef NavigationCallback = void Function(ReturnValue returnValue);
@@ -22,7 +24,12 @@ class ElsaNavigator {
         'from': from,
       };
       final fullPath = _buildPath(path, fullQueryParameters);
-      return context.push<ReturnValue?>(fullPath);
+      if (kIsWeb) {
+        // might need to handle navigate a bit differently on web
+        return context.push<ReturnValue?>(fullPath);
+      } else {
+        return context.push<ReturnValue?>(fullPath);
+      }
     } catch (e) {
       return ReturnValue.error(
         errorCode: NavigationFailure.internalError,

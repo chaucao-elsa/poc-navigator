@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poc_navigator/navigation/elsa_navigator.dart';
+import 'package:poc_navigator/navigation/models/return_value.dart';
 import '../navigation/base_screen.dart';
 
 class ProfileScreen extends BaseScreen {
@@ -14,7 +16,7 @@ class ProfileScreen extends BaseScreen {
         title: const Text('Profile'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => pop(context),
+          onPressed: () => ElsaNavigator.back(context),
         ),
       ),
       body: Center(
@@ -27,9 +29,10 @@ class ProfileScreen extends BaseScreen {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                pop(
+                ElsaNavigator.back(
                   context,
-                  defaultReturnValue.copyWith(
+                  ReturnValue.success(
+                    origin: screenName,
                     data: {'message': 'Profile updated successfully!'},
                   ),
                 );

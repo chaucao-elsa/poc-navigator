@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poc_navigator/navigation/elsa_navigator.dart';
+import 'package:poc_navigator/navigation/models/return_value.dart';
 import '../navigation/base_screen.dart';
 
 class LeaderboardScreen extends BaseStatefulScreen {
@@ -22,9 +24,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
         title: const Text('Leaderboard'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => widget.pop(
+          onPressed: () => ElsaNavigator.back(
             context,
-            widget.defaultReturnValue.copyWith(
+            ReturnValue.success(
+              origin: widget.screenName,
               data: {'counter': _counter},
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poc_navigator/navigation/elsa_navigator.dart';
 import '../navigation/base_screen.dart';
 
 class LearnScreen extends BaseScreen {
@@ -14,14 +15,14 @@ class LearnScreen extends BaseScreen {
         title: const Text('Learn'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => pop(context),
+          onPressed: () => ElsaNavigator.back(context),
         ),
       ),
       body: LearnScreenBody(
         path: screenParams.path,
         from: screenParams.from,
         queryData: screenParams.queryData,
-        completeLearningCallBack: () => pop(context),
+        completeLearningCallBack: () => ElsaNavigator.back(context),
       ),
     );
   }

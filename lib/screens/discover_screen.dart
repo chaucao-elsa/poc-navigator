@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
+import 'package:poc_navigator/navigation/models/return_value.dart';
 
 import '../navigation/base_screen.dart';
 
@@ -31,9 +32,10 @@ class DiscoverScreen extends BaseScreen {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                pop(
+                ElsaNavigator.back(
                   context,
-                  defaultReturnValue.copyWith(
+                  ReturnValue.success(
+                    origin: screenName,
                     data: {'message': 'Found something interesting!'},
                   ),
                 );

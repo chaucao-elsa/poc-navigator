@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:poc_navigator/navigation/elsa_navigator.dart';
 import 'package:poc_navigator/screens/learn_screen.dart';
 
 import '../navigation/base_screen.dart';
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
             title: const Text('Learn'),
             onTap: () async {
               Navigator.of(context).pop();
-              final returnValue = await widget.navigateTo(context, '/learn');
+              final returnValue = await ElsaNavigator.goPath(context, '/learn');
               showSnackBar('Returned from Discover: $returnValue');
             },
           ),
@@ -60,7 +61,8 @@ class _HomeScreenState extends State<HomeScreen>
             title: const Text('Discover'),
             onTap: () async {
               Navigator.of(context).pop();
-              final returnValue = await widget.navigateTo(context, '/discover');
+              final returnValue =
+                  await ElsaNavigator.goPath(context, '/discover');
               showSnackBar('Returned from Discover: $returnValue');
             },
           ),
@@ -69,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
             onTap: () async {
               Navigator.of(context).pop();
               final returnValue =
-                  await widget.navigateTo(context, '/leaderboard');
+                  await ElsaNavigator.goPath(context, '/leaderboard');
               final counter = returnValue?.data['counter'];
 
               showSnackBar('Counter: $counter');
@@ -79,7 +81,8 @@ class _HomeScreenState extends State<HomeScreen>
             title: const Text('Profile'),
             onTap: () async {
               Navigator.of(context).pop();
-              final returnValue = await widget.navigateTo(context, '/profile');
+              final returnValue =
+                  await ElsaNavigator.goPath(context, '/profile');
               showSnackBar('Returned from Discover: $returnValue');
             },
           ),
