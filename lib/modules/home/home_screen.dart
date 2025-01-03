@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
 
-import '../navigation/base_screen.dart';
+import '../../navigation/base_screen.dart';
 
 class HomeScreen extends BaseStatefulScreen {
   final StatefulNavigationShell navigationShell;
@@ -113,6 +113,17 @@ class _HomeScreenState extends State<HomeScreen>
         content: Text(message),
         duration: const Duration(seconds: 2),
       ),
+    );
+  }
+}
+
+class HomeScreenBody extends StatelessWidget {
+  const HomeScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: Text('Home'),
     );
   }
 }

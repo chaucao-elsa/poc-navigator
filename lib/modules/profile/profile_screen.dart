@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
 import 'package:poc_navigator/navigation/models/return_value.dart';
-import '../navigation/base_screen.dart';
+import '../../navigation/base_screen.dart';
 
 class ProfileScreen extends BaseScreen {
   const ProfileScreen({super.key, required super.screenParams});

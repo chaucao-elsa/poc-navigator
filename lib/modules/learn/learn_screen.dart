@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
 
-import '../navigation/base_screen.dart';
+import '../../navigation/base_screen.dart';
 
 class LearnScreen extends BaseScreen {
   const LearnScreen({super.key, required super.screenParams});
@@ -61,14 +61,7 @@ class LearnScreenBody extends StatelessWidget {
           title: Text(lesson['title']),
           subtitle: Text('Lesson ${lesson['id']}'),
           onTap: () {
-            if (completeLearningCallBack != null) {
-              // If we're in the tab view
-              ElsaNavigator.goPath(
-                  context, '/home/learn/lesson/${lesson['id']}');
-            } else {
-              // If we're in full screen view
-              ElsaNavigator.goPath(context, '/learn/lesson/${lesson['id']}');
-            }
+            ElsaNavigator.goPath(context, '/learn/lesson/${lesson['id']}');
           },
         );
       },

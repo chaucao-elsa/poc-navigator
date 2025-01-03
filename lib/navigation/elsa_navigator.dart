@@ -18,12 +18,19 @@ class ElsaNavigator {
     final from = GoRouterState.of(context).uri.toString();
 
     try {
+      // Parse the path to extract any query parameters
+      final uri = Uri.parse(path);
+
+      // Merge query parameters, prioritizing those from the path
       final fullQueryParameters = {
         ...queryParameters ?? {},
+        ...uri.queryParameters, // Parameters from path take precedence
         'from': from,
       };
 
-      final fullPath = _buildPath(path, fullQueryParameters);
+      // Use the path without query parameters
+      final cleanPath = uri.path;
+      final fullPath = _buildPath(cleanPath, fullQueryParameters);
 
       return context.push<ReturnValue?>(
         fullPath,
