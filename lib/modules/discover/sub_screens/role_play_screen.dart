@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poc_navigator/navigation/base_screen.dart';
 import 'package:poc_navigator/navigation/elsa_navigator.dart';
 
-import '../../navigation/base_screen.dart';
-import 'bloc/counter_bloc.dart';
+import '../bloc/counter_bloc.dart';
 
-class DiscoverScreen extends BaseScreen {
-  const DiscoverScreen({super.key, required super.screenParams});
+class RolePlayScreen extends BaseScreen {
+  const RolePlayScreen({super.key, required super.screenParams});
 
   @override
-  String get screenName => 'Discover';
+  String get screenName => 'Role Play';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Discover'),
+        title: const Text('Role Play'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            ElsaNavigator.back(context);
-          },
+          onPressed: () => ElsaNavigator.back(context),
         ),
       ),
       body: Center(
@@ -31,7 +29,6 @@ class DiscoverScreen extends BaseScreen {
             Text('From: ${screenParams.from}'),
             Text('Query params: ${screenParams.queryData}'),
             const SizedBox(height: 20),
-            // Counter display and controls
             BlocBuilder<CounterBloc, CounterState>(
               builder: (context, state) {
                 return Column(
@@ -62,25 +59,6 @@ class DiscoverScreen extends BaseScreen {
                   ],
                 );
               },
-            ),
-            const SizedBox(height: 20),
-            // Navigation buttons
-            ElevatedButton(
-              onPressed: () =>
-                  ElsaNavigator.goPath(context, '/discover/role-play'),
-              child: const Text('Go to Role Play'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () =>
-                  ElsaNavigator.goPath(context, '/discover/courses'),
-              child: const Text('Go to Courses'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () =>
-                  ElsaNavigator.goPath(context, '/discover/topics'),
-              child: const Text('Go to Topics'),
             ),
           ],
         ),

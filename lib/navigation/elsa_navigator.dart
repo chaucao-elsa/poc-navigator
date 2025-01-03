@@ -15,8 +15,7 @@ class ElsaNavigator {
     Map<String, dynamic>? queryParameters,
     NavigationCallback? callback,
   }) async {
-    final from = GoRouterState.of(context).uri.toString();
-
+    final from = GoRouterState.of(context).uri.path;
     try {
       // Parse the path to extract any query parameters
       final uri = Uri.parse(path);
@@ -30,6 +29,7 @@ class ElsaNavigator {
 
       // Use the path without query parameters
       final cleanPath = uri.path;
+
       final fullPath = _buildPath(cleanPath, fullQueryParameters);
 
       return context.push<ReturnValue?>(
